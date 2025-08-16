@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[project]
+name = "MedBrandWebApp"
+version = "0.0.1"
+
+description = "MedBrandWebApp - Mini web app in Telegram"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "sqlalchemy~=2.0",
+    "asyncpg",
+    "alembic~=1.0",
+    "environs~=9.0",
+    "betterlogging~=0.2",
+    "marshmallow>=3.20,<4",
+]
+[project.optional-dependencies]
+bot = [
+    "aiogram~=3.0",
+    "redis~=5.0",
+    "aiogram-dialog~=2.0",
+    "faker",
+    "python-dateutil",
+]
+web = [
+    "aiogram~=3.0",
+    "uvicorn~=0.23",
+    "fastapi~=0.102",
+    "python-dateutil",
+]
+
+
+[project.urls]
+"Homepage" = "https://github.com/Latand/MedBrandWebApp/"
+"Bug Tracker" = "https://github.com/Latand/MedBrandWebApp/issues"
