@@ -25,9 +25,9 @@ const LandingPage = () => {
 
   <p className="landing-page__text">Sog‘lig‘ingiz bizning ustuvor vazifamiz.</p>
   <Link to="/see_a_doctor" className="arrow-button button">Shifokorga uchrashuv
-          <span className="arrow">
+          {/* <span className="arrow">
             <img src={arrowRight} alt="Arrow Right"/>
-          </span>
+          </span> */}
         </Link>
 
   <Link to="/get_tested" className="button-second button">Tahlil topshirish</Link>
