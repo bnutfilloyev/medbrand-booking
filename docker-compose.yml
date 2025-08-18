@@ -7,31 +7,20 @@ services:
         dockerfile: Dockerfile
     working_dir: "/home/node/app"
     volumes:
-      # - /var/app/medbrand/:/home/node/app/dist
-
-#     Uncomment this if you are running in development
-     - ./frontend:/home/node/app
-
-#     Uncomment this if you are running in development
-    command: ["npm", "run", "dev", "--host"]
-    ports:
-      - "5173:5173"  # Expose Vite dev server
-
-#     Comment this if you are running in production
-    # command: ["npm", "run", "build"]
+      - /var/app/medbrand-booking/:/home/node/app/dist
+    command: ["npm", "run", "build"]
 
     stop_signal: SIGINT
 
   bot:
-    image: "medbrandapp_bot"
+    image: "medbrand-bookingapp_bot"
     stop_signal: SIGINT
     build:
       context: ./backend
       dockerfile: ./bot.Dockerfile
     volumes:
       - ./backend/src:/src/  # Volume for bot code
-      # - /var/app/medbrand:/src/public # Volume for static files, that are shared between bot and frontend
-      - ./backend/src/public:/src/public # Volume for static files, that are shared between bot and frontend
+      - /var/app/medbrand-booking:/src/public # Volume for static files, that are shared between bot and frontend
     restart: always
 
     env_file:
@@ -60,7 +49,7 @@ services:
         max-file: "10"
 
   webhook:
-    image: "medbrandapp_web"
+    image: "medbrand-bookingapp_web"
     stop_signal: SIGINT
     build:
       context: ./backend
@@ -87,18 +76,6 @@ services:
       - ".env"
     volumes:
       - cache:/data
-
-  ngrok:
-    image: ngrok/ngrok:latest
-    restart: unless-stopped
-    environment:
-      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
-    depends_on:
-      - app
-    ports:
-      - "4040:4040"  # ngrok web interface/API
-    command: ["ngrok", "http", "app:5173"]
-
 
 volumes:
   pgdata: { }
