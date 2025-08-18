@@ -14,21 +14,17 @@ const LandingPage = () => {
             alt="MedBrand Logo"
           />
         </div>
-
+{/* 
         <div className="landing-page__icon">
           <img
             className="landing-page__icon--img"
             src={medSyncIcon}
             alt="Med"
           />
-        </div>
+        </div> */}
 
   <p className="landing-page__text">Sog‘lig‘ingiz bizning ustuvor vazifamiz.</p>
-  <Link to="/see_a_doctor" className="arrow-button button">Shifokorga uchrashuv
-          {/* <span className="arrow">
-            <img src={arrowRight} alt="Arrow Right"/>
-          </span> */}
-        </Link>
+  <Link to="/see_a_doctor" className="arrow-button button">Shifokorga uchrashuv</Link>
 
   <Link to="/get_tested" className="button-second button">Tahlil topshirish</Link>
 
