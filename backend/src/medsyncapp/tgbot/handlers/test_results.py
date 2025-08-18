@@ -26,7 +26,7 @@ async def get_results(dialog_manager: DialogManager, repo: RequestsRepo, **kwarg
     return {
         "results": [
             (
-                f"📋 {result.Diagnostic.type_name}: {result.Booking.booking_time.strftime('%d %B %Y')}",
+                f"� <b>{result.Diagnostic.type_name}</b>\n📅 {result.Booking.booking_time.strftime('%d %B %Y')}",
                 result.DiagnosticResult.diagnostic_result_id,
             )
             for result in results
@@ -42,14 +42,17 @@ async def show_result(
 ):
     repo: RequestsRepo = dialog_manager.middleware_data.get("repo")
     result = await repo.results.get_result(int(result_id))
-    caption = f"📋 {result.Diagnostic.type_name}: {result.Booking.booking_time.strftime('%d %B %Y')}"
+    caption = f"� <b>Tahlil natijalari</b> 📊\n\n" \
+              f"🔬 <b>Tahlil turi:</b> {result.Diagnostic.type_name}\n" \
+              f"📅 <b>Tahlil sanasi:</b> {result.Booking.booking_time.strftime('%d %B %Y')}\n\n" \
+              f"💼 <b>Sizning tahlil natijangiz quyida:</b>"
     if result.DiagnosticResult.file_id:
         file = result.DiagnosticResult.file_id
     else:
         full_path = os.path.join(PUBLIC_DIR_PATH, result.DiagnosticResult.file_path)
         logging.info(f"full_path: {full_path}")
         file = FSInputFile(full_path)
-    msg = await callback_query.message.answer_document(file, caption=caption)
+    msg = await callback_query.message.answer_document(file, caption=caption, parse_mode="HTML")
 
     if not result.DiagnosticResult.file_id:
         await repo.results.save_file_id(int(result_id), msg.document.file_id)
@@ -57,7 +60,8 @@ async def show_result(
 
 test_results_dialog = Dialog(
     Window(
-    Const("Natijalar ro‘yxati. Faylni ko‘rish uchun birini tanlang"),
+        Const("📊 <b>Sizning tahlil natijalaringiz</b> 📊\n\n"
+              "🔍 Tahlil natijasini ko'rish uchun quyidagi ro'yxatdan birini tanlang:"),
         ScrollingGroup(
             Select(
                 Format("{item[0]}"),
@@ -71,9 +75,10 @@ test_results_dialog = Dialog(
             height=10,
             hide_on_single_page=True,
         ),
-    Cancel(Const("Chiqish"), on_click=start_from_dialog_menu),
+        Cancel(Const("🚪 Chiqish"), on_click=start_from_dialog_menu),
         getter=get_results,
         state=MyResult.show_list,
+        parse_mode="HTML"
     ),
 )
 

@@ -11,7 +11,7 @@ const SpecializationCard = ({className, imgSrc, title, subtitle, price}) => {
       <div className="specialization-card__text">
         <div className="specialization-card__title">{title}</div>
         <div className="specialization-card__subtitle">{subtitle}</div>
-        <div className="specialization-card__price">${price.toFixed(0)}</div>
+        <div className="specialization-card__price">{price.toLocaleString()} so'm</div>
       </div>
     </section>
   )

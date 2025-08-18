@@ -26,7 +26,7 @@ const DoctorCard = ({
 
       <p className="card__address">{address}</p>
 
-      <p className="card__price">Price: {price.toFixed(2)}$</p>
+      <p className="card__price">Narx: {price.toLocaleString()} so'm</p>
     </div>
 
     <div className="card__icon">

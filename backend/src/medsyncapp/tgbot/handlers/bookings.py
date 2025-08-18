@@ -47,18 +47,20 @@ async def get_booking_info(dialog_manager: DialogManager, repo: RequestsRepo, **
     booking_time = booking_info.Booking.booking_time.strftime("%d %B %Y, %H:%M UTC")
 
     appointment_type_text = (
-        f"👨‍⚕️ Doctor: {booking_info.Doctor.full_name}\n"
+        f"👨‍⚕️ <b>Shifokor:</b> {booking_info.Doctor.full_name}\n"
         if booking_info.Doctor
-        else f"🔬 Diagnostic: {booking_info.Diagnostic.type_name}\n"
+        else f"🔬 <b>Diagnostika:</b> {booking_info.Diagnostic.type_name}\n"
     )
 
     return {
         "text": (
-            f"📋 Booking ID: {booking_info.Booking.booking_id}\n"
+            f"📋 <b>Bron ID:</b> <code>{booking_info.Booking.booking_id}</code>\n\n"
             f"{appointment_type_text}"
-            f"📆 Date & Time: {booking_time}\n\n"
-            f"📍 Location: {booking_info.Location.name}: {booking_info.Location.address}\n\n"
-            f"Thank you for choosing our service! If you have any questions or need to reschedule, feel free to reach out. 📞"
+            f"📆 <b>Sana va vaqt:</b> {booking_time}\n\n"
+            f"📍 <b>Manzil:</b> {booking_info.Location.name}\n"
+            f"🏢 <i>{booking_info.Location.address}</i>\n\n"
+            f"✅ <b>Sizning bronlaringiz tasdiqlangan!</b>\n"
+            f"📞 Savollaringiz bo'lsa yoki vaqtni o'zgartirish kerak bo'lsa, biz bilan bog'laning. �"
         )
     }
 
@@ -75,7 +77,8 @@ async def show_booking(
 
 booking_dialog = Dialog(
     Window(
-    Const("Bronlaringiz ro‘yxati. Tafsilotlarni ko‘rish uchun birini tanlang"),
+        Const("📋 <b>Sizning bronlaringiz</b> 📋\n\n"
+              "📅 Tafsilotlarni ko'rish uchun quyidagi ro'yxatdan birini tanlang:"),
         ScrollingGroup(
             Select(
                 Format("{item[0]}"),
@@ -89,16 +92,18 @@ booking_dialog = Dialog(
             height=10,
             hide_on_single_page=True,
         ),
-    Cancel(Const("Chiqish"), on_click=start_from_dialog_menu),
+        Cancel(Const("🚪 Chiqish"), on_click=start_from_dialog_menu),
         getter=get_bookings,
         state=MyBookings.show_list,
+        parse_mode="HTML"
     ),
     Window(
-    Const("Bron tafsilotlari\n\n"),
+        Const("📄 <b>Bron tafsilotlari</b> 📄\n"),
         Format("{text}"),
-    Back(Const("Orqaga")),
+        Back(Const("⬅️ Orqaga")),
         getter=get_booking_info,
         state=MyBookings.show_booking,
+        parse_mode="HTML"
     ),
 )
 

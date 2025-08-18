@@ -18,13 +18,41 @@ async def bot_echo(message: types.Message, repo: RequestsRepo):
 
         booking_time = booking_info.Booking.booking_time.strftime("%d %B %Y, %H:%M UTC")
 
-        appointment_type_text =f"👨‍⚕️ Doctor: {hbold(booking_info.Doctor.full_name)}\n" if booking_info.Doctor else f"🔬 Diagnostic: {hbold(booking_info.Diagnostic.type_name)}\n"
+        appointment_type_text = f"👨‍⚕️ <b>Shifokor:</b> {hbold(booking_info.Doctor.full_name)}\n" if booking_info.Doctor else f"🔬 <b>Diagnostika:</b> {hbold(booking_info.Diagnostic.type_name)}\n"
+
+        # Send a celebration sticker first
+        await message.answer_sticker("CAACAgIAAxkDAAIBY2XYGIQAA1cE4d7iMYAAAAGKhQd2W8UAAjsRAALv-SlKLGAy7DaKLqkgAQ")
+        
+        await message.answer(
+            text=f"🎉 <b>Tabriklaymiz! Sizning bronlaringiz tasdiqlandi!</b> ✅\n\n"
+                 f"📋 <b>Bron ID:</b> {hcode(booking_id)}\n\n"
+                 f"{appointment_type_text}"
+                 f"📆 <b>Sana va vaqt:</b> {hbold(booking_time)}\n\n"
+                 f"📍 <b>Manzil:</b> {hbold(booking_info.Location.name)}\n"
+                 f"🏢 <i>{booking_info.Location.address}</i>\n\n"
+                 f"🙏 <b>MedBrand xizmatini tanlaganingiz uchun rahmat!</b>\n"
+                 f"📞 Savollaringiz bo'lsa yoki vaqtni o'zgartirish kerak bo'lsa, biz bilan bog'laning. 💬\n\n"
+                 f"💚 <i>Sog'ligingiz bizning ustuvor vazifamiz!</i> 💚",
+            parse_mode="HTML"
+        )
+
+    if data.get("action") == "booking_confirmed":
+        booking_id = data.get("booking_id")
+        booking_info = await repo.bookings.get_booking(int(booking_id))
+
+        booking_time = booking_info.Booking.booking_time.strftime("%d %B %Y, %H:%M UTC")
+
+        appointment_type_text = f"👨‍⚕️ <b>Shifokor:</b> {hbold(booking_info.Doctor.full_name)}\n" if booking_info.Doctor else f"🔬 <b>Diagnostika:</b> {hbold(booking_info.Diagnostic.type_name)}\n"
 
         await message.answer(
-            text=f"🎉 Congratulations! Your booking is confirmed. 🎉\n\n"
-                 f"📋 Booking ID: {hcode(booking_id)}\n"
-                    f"{appointment_type_text}"
-                 f"📆 Date & Time: {hbold(booking_time)}\n\n"
-                 f"📍 Location: {hbold(booking_info.Location.name)}: {hbold(booking_info.Location.address)}\n\n"
-                 f"Thank you for choosing our service! If you have any questions or need to reschedule, feel free to reach out. 📞"
+            text=f"🎉 <b>Tabriklaymiz! Sizning bronlaringiz tasdiqlandi!</b> ✅\n\n"
+                 f"📋 <b>Bron ID:</b> {hcode(booking_id)}\n\n"
+                 f"{appointment_type_text}"
+                 f"📆 <b>Sana va vaqt:</b> {hbold(booking_time)}\n\n"
+                 f"📍 <b>Manzil:</b> {hbold(booking_info.Location.name)}\n"
+                 f"🏢 <i>{booking_info.Location.address}</i>\n\n"
+                 f"🙏 <b>MedBrand xizmatini tanlaganingiz uchun rahmat!</b>\n"
+                 f"📞 Savollaringiz bo'lsa yoki vaqtni o'zgartirish kerak bo'lsa, biz bilan bog'laning. 💬\n\n"
+                 f"💚 <i>Sog'ligingiz bizning ustuvor vazifamiz!</i> �",
+            parse_mode="HTML"
         )

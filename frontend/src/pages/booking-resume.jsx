@@ -154,7 +154,7 @@ const FullSummary = () => {
                 <div className="resume__diagnostics__info">
                   <div className="resume__block__title">{diagnosticData.type_name}</div>
                   <div className="resume__block__text">{diagnosticData.description}</div>
-                  <div className="resume__block__text">Narx: ${diagnosticData.price.toFixed(0)}</div>
+                  <div className="resume__block__text">Narx: {diagnosticData.price.toLocaleString()} so'm</div>
 
                 </div>
               </div>
