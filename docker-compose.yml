@@ -7,7 +7,7 @@ services:
         dockerfile: Dockerfile
     working_dir: "/home/node/app"
     volumes:
-      - /var/app/medsync/:/home/node/app/dist
+      - /var/app/medbrand-booking/:/home/node/app/dist
 
 #     Uncomment this if you are running in development
 #      - ./frontend:/home/node/app
@@ -21,14 +21,14 @@ services:
     stop_signal: SIGINT
 
   bot:
-    image: "medsyncapp_bot"
+    image: "medbrand-booking_app_bot"
     stop_signal: SIGINT
     build:
       context: ./backend
       dockerfile: ./bot.Dockerfile
     volumes:
       - ./backend/src:/src/  # Volume for bot code
-      - /var/app/medsync:/src/public # Volume for static files, that are shared between bot and frontend
+      - /var/app/medbrand-booking:/src/public # Volume for static files, that are shared between bot and frontend
     restart: always
 
     env_file:
@@ -57,7 +57,7 @@ services:
         max-file: "10"
 
   webhook:
-    image: "medsyncapp_web"
+    image: "medbrand-booking_app_web"
     stop_signal: SIGINT
     build:
       context: ./backend
