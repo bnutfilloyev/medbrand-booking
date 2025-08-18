@@ -1,7 +1,7 @@
 """update doctors to uzbek names and som prices
 
 Revision ID: uzbek_doctors_som_prices
-Revises: f8318189ccce
+Revises: 88bdd79e5a2f
 Create Date: 2025-08-18 15:30:00.000000
 
 """
@@ -11,7 +11,7 @@ from alembic import op
 
 # revision identifiers, used by Alembic.
 revision: str = 'uzbek_doctors_som_prices'
-down_revision: Union[str, None] = 'f8318189ccce'
+down_revision: Union[str, None] = '88bdd79e5a2f'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
