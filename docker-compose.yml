@@ -7,7 +7,7 @@ services:
         dockerfile: Dockerfile
     working_dir: "/home/node/app"
     volumes:
-      - /var/app/medbrand-booking/dist:/home/node/app/dist
+      - /var/app/medbrand-booking:/home/node/app/dist
 
 #     Uncomment this if you are running in development
 #      - ./frontend:/home/node/app
