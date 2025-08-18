@@ -20,9 +20,6 @@ async def bot_echo(message: types.Message, repo: RequestsRepo):
 
         appointment_type_text = f"👨‍⚕️ <b>Shifokor:</b> {hbold(booking_info.Doctor.full_name)}\n" if booking_info.Doctor else f"🔬 <b>Diagnostika:</b> {hbold(booking_info.Diagnostic.type_name)}\n"
 
-        # Send a celebration sticker first
-        await message.answer_sticker("CAACAgIAAxkDAAIBY2XYGIQAA1cE4d7iMYAAAAGKhQd2W8UAAjsRAALv-SlKLGAy7DaKLqkgAQ")
-        
         await message.answer(
             text=f"🎉 <b>Tabriklaymiz! Sizning bronlaringiz tasdiqlandi!</b> ✅\n\n"
                  f"📋 <b>Bron ID:</b> {hcode(booking_id)}\n\n"
